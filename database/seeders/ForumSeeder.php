@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Board;
 use App\Models\Category;
 use App\Models\Member;
+use App\Models\Membergroup;
 use App\Models\Message;
 use App\Models\Topic;
 use Illuminate\Database\Eloquent\Factories\Sequence;
@@ -28,7 +29,34 @@ class ForumSeeder extends Seeder
             'email_address' => 'admin@test.com',
         ]);
 
-        $members = Member::factory(mt_rand(46, 78))->create();
+        Membergroup::factory()->createMany([
+            [
+                'group_name' => 'Administrator',
+                'description' => '',
+                'online_color' => '#FF0000',
+                'icon' => '5#iconadmin.png',
+                'group_type' => 1,
+            ],
+            [
+                'group_name' => 'Global Moderator',
+                'description' => '',
+                'online_color' => '#0000FF',
+                'icon' => '5#icongmod.png',
+            ],
+            [
+                'group_name' => 'Moderator',
+                'description' => '',
+                'icon' => '5#iconmod.png',
+            ]
+        ]);
+
+        $membergroups = Membergroup::factory(10)->create();
+
+        $members = Member::factory(mt_rand(46, 78))->state(new Sequence(
+            function () use ($membergroups) {
+                return ['id_group' => $membergroups->random()];
+            }
+        ))->create();
 
         $categories = Category::factory(mt_rand(3, 6))->create();
 
@@ -50,7 +78,7 @@ class ForumSeeder extends Seeder
                     }
                 ))
                 ->create([
-                    'id_board' => $board->id_board
+                    'id_board' => $board->id_board,
                 ])
             );
         });

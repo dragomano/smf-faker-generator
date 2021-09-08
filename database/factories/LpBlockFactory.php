@@ -29,8 +29,15 @@ class LpBlockFactory extends Factory
             'placement' => $this->faker->randomElement(['header', 'top', 'left', 'right', 'bottom', 'footer']),
             'permissions' => 3,
             'title_class' => 'cat_bar',
-            'content_class' => 'roundframe'
+            'title_style' => 'background: ' . $this->getRandomColor(),
+            'content_class' => 'roundframe',
+            'content_style' => 'background: ' . $this->getRandomColor(),
         ];
+    }
+
+    private function getRandomColor()
+    {
+        return Str::lower(sprintf('#%06X', mt_rand(0, 0xFFFFFF)));
     }
 
     /**

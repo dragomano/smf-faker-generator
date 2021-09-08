@@ -31,6 +31,8 @@ class TopicFactory extends Factory
             'id_member_started' => function () {
                 return Member::factory()->create()->id;
             },
+            'num_views' => mt_rand(0, 9999),
+            'locked' => mt_rand(1, 100) === 1 ? 1 : 0,
         ];
     }
 

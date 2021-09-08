@@ -23,9 +23,9 @@ class MemberFactory extends Factory
     public function definition()
     {
         return [
-            'member_name' => Str::slug($this->faker->unique()->words(random_int(1, 3), true), '_'),
+            'member_name' => Str::slug($name = $this->faker->unique()->name(), '_'),
             'date_registered' => $this->faker->dateTimeBetween('-5 years')->getTimestamp(),
-            'real_name' => $this->faker->unique()->name(),
+            'real_name' => $name,
             'passwd' => bcrypt('password'),
             'email_address' => $this->faker->unique()->safeEmail(),
             'birthdate' => $this->faker->dateTimeBetween('-50 years', '-20 years'),

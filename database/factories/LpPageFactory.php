@@ -27,6 +27,7 @@ class LpPageFactory extends Factory
             'content' => $this->faker->paragraphs(rand(1, 6), true),
             'type' => 'bbc',
             'permissions' => 3,
+            'num_views' => mt_rand(0, 9999),
             'created_at' => $this->faker->dateTimeBetween('-4 years')->getTimestamp(),
         ];
     }
