@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LpCategory extends Model
 {
@@ -13,7 +14,7 @@ class LpCategory extends Model
 
     protected $primaryKey = 'category_id';
 
-    public function pages()
+    public function pages(): HasMany
     {
         return $this->hasMany(LpPage::class, 'category_id', 'category_id');
     }

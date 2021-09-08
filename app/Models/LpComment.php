@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class LpComment extends Model
 {
@@ -22,12 +23,12 @@ class LpComment extends Model
         });
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'author_id', 'id_member');
     }
 
-    public function page()
+    public function page(): BelongsTo
     {
         return $this->belongsTo(LpPage::class, 'page_id');
     }

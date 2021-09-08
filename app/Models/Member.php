@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -36,22 +37,22 @@ class Member extends Authenticatable
         'passwd',
     ];
 
-    public function topics()
+    public function topics(): HasMany
     {
         return $this->hasMany(Topic::class, 'id_member_started', 'id_member');
     }
 
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class, 'id_member', 'id_member');
     }
 
-    public function pages()
+    public function pages(): HasMany
     {
         return $this->hasMany(LpPage::class, 'author_id', 'id_member');
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(LpComment::class, 'author_id', 'id_member');
     }

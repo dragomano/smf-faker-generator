@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Topic extends Model
 {
@@ -17,35 +19,17 @@ class Topic extends Model
         'id_last_msg'
     ];
 
-    public static function booted()
-    {
-        self::created(function($model) {
-            $message = Message::factory()->withRandomImage()->create([
-                'id_topic' => $model->id_topic,
-                'id_board' => $model->id_board,
-                'id_member' => $model->id_member_started,
-                'poster_name' => $model->member->real_name,
-                'poster_email' => $model->member->email_address,
-            ]);
-
-            $model->update([
-                'id_first_msg' => $message->id_msg,
-                'id_last_msg' => $message->id_msg
-            ]);
-        });
-    }
-
-    public function board()
+    public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class, 'id_board', 'id_board');
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'id_member_started', 'id_member');
     }
 
-    public function messages()
+    public function messages(): HasMany
     {
         return $this->hasMany(Message::class, 'id_topic', 'id_topic');
     }

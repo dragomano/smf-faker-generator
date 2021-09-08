@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Message extends Model
 {
@@ -12,51 +13,6 @@ class Message extends Model
     public $timestamps = false;
 
     protected $primaryKey = 'id_msg';
-
-    public static function booted()
-    {
-        self::retrieved(function($model) {
-            // ... code here
-        });
-
-        self::creating(function($model) {
-            // ... code here
-        });
-
-        self::created(function($model) {
-            $model->topic->increment('num_replies');
-        });
-
-        self::saving(function($model) {
-            // ... code here
-        });
-
-        self::saved(function($model) {
-            $model->topic->update(['id_last_msg' => $model->id_msg]);
-        });
-
-        self::updating(function($model) {
-            // ... code here
-        });
-
-        self::updated(function($model) {
-            // ... code here
-        });
-
-        self::deleting(function($model) {
-            // ... code here
-        });
-
-        self::deleted(function($model) {
-            $model->topic->decrement('num_replies');
-
-            if (empty($lastMsg = $model->topic->messages->last()->id_msg)) {
-                $model->topic->delete();
-            } else {
-                $model->topic->update(['id_last_msg' => $lastMsg]);
-            }
-        });
-    }
 
     public function getPosterIpAttribute($value)
     {
@@ -73,17 +29,17 @@ class Message extends Model
         return $query->where('poster_ip', inet_pton($ip));
     }
 
-    public function member()
+    public function member(): BelongsTo
     {
         return $this->belongsTo(Member::class, 'id_member', 'id_member');
     }
 
-    public function topic()
+    public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class, 'id_topic', 'id_topic');
     }
 
-    public function board()
+    public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class, 'id_board', 'id_board');
     }
