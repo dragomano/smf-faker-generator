@@ -25,7 +25,7 @@ class ForumSeeder extends Seeder
             'date_registered' => strtotime(now()),
             'id_group' => 1,
             'real_name' => 'Test',
-            'passwd' => '$2y$10$bTAgLLhjQHbLpJOUyMqtVOGW6a5j2Yw.1D4PeaSbhA7e.S1Y7vtsi', // test
+            'passwd' => bcrypt('test'),
             'email_address' => 'admin@test.com',
         ]);
 
@@ -34,19 +34,49 @@ class ForumSeeder extends Seeder
                 'group_name' => 'Administrator',
                 'description' => '',
                 'online_color' => '#FF0000',
-                'icon' => '5#iconadmin.png',
+                'icons' => '5#iconadmin.png',
                 'group_type' => 1,
             ],
             [
                 'group_name' => 'Global Moderator',
                 'description' => '',
                 'online_color' => '#0000FF',
-                'icon' => '5#icongmod.png',
+                'icons' => '5#icongmod.png',
             ],
             [
                 'group_name' => 'Moderator',
                 'description' => '',
-                'icon' => '5#iconmod.png',
+                'icons' => '5#iconmod.png',
+            ],
+            [
+                'group_name' => 'Newbie',
+                'description' => '',
+                'min_posts' => 0,
+                'icons' => '1#icon.png',
+            ],
+            [
+                'group_name' => 'Jr. Member',
+                'description' => '',
+                'min_posts' => 50,
+                'icons' => '2#icon.png',
+            ],
+            [
+                'group_name' => 'Full Member',
+                'description' => '',
+                'min_posts' => 100,
+                'icons' => '3#icon.png',
+            ],
+            [
+                'group_name' => 'Sr. Member',
+                'description' => '',
+                'min_posts' => 250,
+                'icons' => '4#icon.png',
+            ],
+            [
+                'group_name' => 'Hero Member',
+                'description' => '',
+                'min_posts' => 500,
+                'icons' => '5#icon.png',
             ]
         ]);
 

@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(ForumSeeder::class);
-        $this->call(PortalBlockSeeder::class);
+        //$this->call(PortalBlockSeeder::class);
         $this->call(PortalPageSeeder::class);
     }
 }

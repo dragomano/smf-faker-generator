@@ -89,7 +89,7 @@ class PortalPageSeeder extends Seeder
         });
 
         $comments = LpComment::all();
-        $comments->each(function ($comment) {
+        $childComments = $comments->each(function ($comment) {
             LpComment::factory(mt_rand(0, 3))
                 ->state(
                     new Sequence(
@@ -101,6 +101,23 @@ class PortalPageSeeder extends Seeder
                         }
                     )
                 )
+                ->createdFrom($comment->created_at)
+                ->create();
+        });
+
+        $childComments->each(function ($comment) {
+            LpComment::factory(mt_rand(0, 3))
+                ->state(
+                    new Sequence(
+                        function () use ($comment) {
+                            return [
+                                'page_id' => $comment->page_id,
+                                'parent_id' => $comment->id,
+                            ];
+                        }
+                    )
+                )
+                ->createdFrom($comment->created_at)
                 ->create();
         });
     }

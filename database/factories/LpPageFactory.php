@@ -20,7 +20,7 @@ class LpPageFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
             'alias' => Str::slug($this->faker->unique()->city, '_'),
@@ -33,7 +33,7 @@ class LpPageFactory extends Factory
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     * @return Factory
      */
     public function withRandomImage()
     {

@@ -25,7 +25,7 @@ class MembergroupFactory extends Factory
             'group_name' => $this->faker->unique()->country(),
             'description' => $this->faker->sentence,
             'online_color' => $this->faker->unique()->hexColor(),
-            'icon' => '1#icon.png',
+            'icons' => '1#icon.png',
         ];
     }
 }
