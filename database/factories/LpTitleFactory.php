@@ -14,12 +14,7 @@ class LpTitleFactory extends Factory
      */
     protected $model = LpTitle::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
             'lang' => 'english',

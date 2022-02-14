@@ -15,11 +15,6 @@ class LpPageFactory extends Factory
      */
     protected $model = LpPage::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
     public function definition(): array
     {
         return [
@@ -32,10 +27,7 @@ class LpPageFactory extends Factory
         ];
     }
 
-    /**
-     * @return Factory
-     */
-    public function withRandomImage()
+    public function withRandomImage(): Factory
     {
         return $this->state(function (array $attributes) {
             $image = 'https://picsum.photos/seed/' . Str::random() . '/400/200';

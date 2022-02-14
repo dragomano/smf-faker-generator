@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
 
 class Member extends Authenticatable
@@ -55,5 +56,10 @@ class Member extends Authenticatable
     public function comments(): HasMany
     {
         return $this->hasMany(LpComment::class, 'author_id', 'id_member');
+    }
+
+    public static function getHashedPassword($name, $password)
+    {
+        return password_hash(Str::lower($name) . $password, PASSWORD_BCRYPT);
     }
 }

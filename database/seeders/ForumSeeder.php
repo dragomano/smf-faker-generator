@@ -3,21 +3,18 @@
 namespace Database\Seeders;
 
 use App\Models\Board;
+use App\Models\BoardPermissionsView;
 use App\Models\Category;
 use App\Models\Member;
 use App\Models\Membergroup;
 use App\Models\Message;
 use App\Models\Topic;
+use Database\Factories\BoardPermissionsViewFactory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class ForumSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         Member::factory()->create([
@@ -25,7 +22,7 @@ class ForumSeeder extends Seeder
             'date_registered' => strtotime(now()),
             'id_group' => 1,
             'real_name' => 'Test',
-            'passwd' => bcrypt('test'),
+            'passwd' => Member::getHashedPassword('Test', 'test'),
             'email_address' => 'admin@test.com',
         ]);
 
@@ -80,38 +77,37 @@ class ForumSeeder extends Seeder
             ]
         ]);
 
-        $membergroups = Membergroup::factory(10)->create();
+        $groups = Membergroup::factory(10)->create();
 
-        $members = Member::factory(mt_rand(46, 78))->state(new Sequence(
-            function () use ($membergroups) {
-                return ['id_group' => $membergroups->random()];
-            }
-        ))->create();
+        $members = Member::factory(mt_rand(52, 128))
+            ->sequence(
+                fn() => ['id_group' => $groups->random()]
+            )
+            ->create();
 
         $categories = Category::factory(mt_rand(3, 6))->create();
 
-        $boards = Board::factory(mt_rand(17, 22))
-            ->state(
-                new Sequence(
-                    function () use ($categories) {
-                        return ['id_cat' => $categories->random()];
-                    }
+        $categories->each(
+            fn($category) => Board::factory(mt_rand(1, 2))
+                ->sequence(
+                    fn() => ['id_cat' => $category->id_cat]
                 )
-            )->create();
+                ->create()
+        );
+
+        $boards = Board::all();
 
         $topics = collect();
-        $boards->each(function ($board) use ($members, $topics) {
-            $topics->push(Topic::factory(mt_rand(1, 30))
-                ->state(new Sequence(
-                    function () use ($members) {
-                        return ['id_member_started' => $members->random()];
-                    }
-                ))
+        $boards->each(
+            fn($board) => $topics->push(Topic::factory(mt_rand(1, 2))
+                ->sequence(
+                    fn() => ['id_member_started' => $members->random()]
+                )
                 ->create([
                     'id_board' => $board->id_board,
                 ])
-            );
-        });
+            )
+        );
 
         $topics->each(function ($topics) use ($members) {
             $state = new Sequence(
@@ -126,14 +122,19 @@ class ForumSeeder extends Seeder
                 }
             );
 
-            $topics->each(function ($topic) use ($state) {
-                Message::factory(mt_rand(0, 12))
-                    ->state($state)
-                    ->create([
-                        'id_topic' => $topic->id_topic,
-                        'id_board' => $topic->id_board,
-                    ]);
-            });
+            $topics->each(
+                function ($topic) use ($state) {
+                    $messages = Message::factory(mt_rand(400, 600))
+                        ->state($state)
+                        ->withRandomDate()
+                        ->make([
+                            'id_topic' => $topic->id_topic,
+                            'id_board' => $topic->id_board,
+                        ]);
+
+                    $messages->sortBy('poster_time')->each(fn($item) => $item->save());
+                }
+            );
         });
     }
 }

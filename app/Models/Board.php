@@ -31,4 +31,9 @@ class Board extends Model
     {
         return $this->hasMany(Topic::class, 'id_board', 'id_board');
     }
+
+    public function boardPermissions(): HasMany
+    {
+        return $this->hasMany(BoardPermissionsView::class, 'id_board', 'id_board');
+    }
 }

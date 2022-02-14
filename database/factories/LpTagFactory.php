@@ -14,12 +14,7 @@ class LpTagFactory extends Factory
      */
     protected $model = LpTag::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
             'value' => $this->faker->unique()->city()

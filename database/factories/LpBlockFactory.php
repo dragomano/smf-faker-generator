@@ -15,12 +15,7 @@ class LpBlockFactory extends Factory
      */
     protected $model = LpBlock::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
             'type' => 'html',
@@ -35,20 +30,15 @@ class LpBlockFactory extends Factory
         ];
     }
 
-    private function getRandomColor()
+    private function getRandomColor(): string
     {
         return Str::lower(sprintf('#%06X', mt_rand(0, 0xFFFFFF)));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function type($type)
+    public function type($type): Factory
     {
-        return $this->state(function (array $attributes) use ($type) {
-            return [
-                'type' => $type,
-            ];
-        });
+        return $this->state(fn(array $attributes) => [
+            'type' => $type,
+        ]);
     }
 }

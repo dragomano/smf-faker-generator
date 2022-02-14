@@ -8,15 +8,11 @@ use Illuminate\Database\Seeder;
 
 class PortalBlockSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
         collect(['header', 'top', 'left', 'right', 'bottom', 'footer'])->each(function ($value) {
             $block = LpBlock::factory()->create(['placement' => $value]);
+
             LpTitle::factory()->createMany([
                 [
                     'item_id' => $block->block_id,

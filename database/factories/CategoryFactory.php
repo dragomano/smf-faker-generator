@@ -15,12 +15,7 @@ class CategoryFactory extends Factory
      */
     protected $model = Category::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => Str::ucfirst($this->faker->unique()->words(rand(1, 3), true)),

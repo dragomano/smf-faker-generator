@@ -14,12 +14,7 @@ class MembergroupFactory extends Factory
      */
     protected $model = Membergroup::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
             'group_name' => $this->faker->unique()->country(),

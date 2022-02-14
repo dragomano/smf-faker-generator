@@ -15,32 +15,22 @@ class MemberFactory extends Factory
      */
     protected $model = Member::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'member_name' => Str::slug($name = $this->faker->unique()->name(), '_'),
+            'member_name' => $memberName = Str::slug($name = $this->faker->unique()->name(), '_'),
             'date_registered' => $this->faker->dateTimeBetween('-5 years')->getTimestamp(),
             'real_name' => $name,
-            'passwd' => bcrypt('password' . $name),
+            'passwd' => Member::getHashedPassword($memberName, 'password'),
             'email_address' => $this->faker->unique()->safeEmail(),
             'birthdate' => $this->faker->dateTimeBetween('-50 years', '-20 years'),
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function unactivated()
+    public function unactivated(): Factory
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'is_activated' => 0,
-            ];
-        });
+        return $this->state(fn(array $attributes) => [
+            'is_activated' => 0,
+        ]);
     }
 }

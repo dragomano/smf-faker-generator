@@ -15,13 +15,16 @@ class TopicObserver
      */
     public function created(Topic $topic)
     {
-        $message = Message::factory()->withRandomImage()->create([
-            'id_topic' => $topic->id_topic,
-            'id_board' => $topic->id_board,
-            'id_member' => $topic->id_member_started,
-            'poster_name' => $topic->member->real_name,
-            'poster_email' => $topic->member->email_address,
-        ]);
+        $message = Message::factory()
+            ->withRandomImage()
+            ->withRandomDate()
+            ->create([
+                'id_topic' => $topic->id_topic,
+                'id_board' => $topic->id_board,
+                'id_member' => $topic->id_member_started,
+                'poster_name' => $topic->member->real_name,
+                'poster_email' => $topic->member->email_address,
+            ]);
 
         $topic->update(['id_first_msg' => $message->id_msg]);
         $topic->board->increment('num_topics');

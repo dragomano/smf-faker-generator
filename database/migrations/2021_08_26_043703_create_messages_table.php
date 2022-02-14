@@ -22,7 +22,6 @@ class CreateMessagesTable extends Migration
             $table->string('subject', 255)->default('');
             $table->string('poster_name', 255)->default('');
             $table->string('poster_email', 255)->default('');
-            $table->binary('poster_ip')->nullable();
             $table->text('body');
             $table->unsignedTinyInteger('approved')->default(1);
             $table->foreign('id_topic')->references('id_topic')->on('topics')->cascadeOnDelete();

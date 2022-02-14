@@ -15,17 +15,10 @@ class BoardFactory extends Factory
      */
     protected $model = Board::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'id_cat' => function () {
-                return Category::factory()->create()->id;
-            },
+            'id_cat' => fn() => Category::factory()->create()->id,
             'name' => rtrim($this->faker->sentence(rand(2, 6)), '.'),
             'description' => $this->faker->paragraph,
         ];

@@ -3,11 +3,12 @@
 namespace Database\Factories;
 
 use App\Models\Board;
-use App\Models\Member;
 use App\Models\Message;
 use App\Models\Topic;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use JetBrains\PhpStorm\ArrayShape;
 
 class MessageFactory extends Factory
 {
@@ -18,50 +19,40 @@ class MessageFactory extends Factory
      */
     protected $model = Message::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'id_topic' => function () {
-                return Topic::factory()->create()->id;
-            },
-            'id_board' => function () {
-                return Board::factory()->create()->id;
-            },
+            'id_topic' => fn() => Topic::factory()->create()->id,
+            'id_board' => fn() => Board::factory()->create()->id,
             'poster_time' => $this->faker->dateTimeBetween('-4 years')->getTimestamp(),
             'subject' => rtrim($this->faker->sentence(rand(2, 6)), '.'),
-            'poster_ip' => $this->faker->ipv4,
             'body' => $this->faker->paragraphs(rand(1, 6), true),
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function unapproved()
+    public function unapproved(): Factory
     {
-        return $this->state(function (array $attributes) {
-            return [
-                'approved' => 0
-            ];
-        });
+        return $this->state(fn() => [
+            'approved' => 0,
+        ]);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function withRandomImage()
+    public function withRandomImage(): Factory
     {
-        return $this->state(function (array $attributes) {
-            $image = '[img]https://picsum.photos/seed/' . Str::random() . '/400/200[/img][br]';
+        $image = '[img]https://picsum.photos/seed/' . Str::random() . '/400/200[/img][br]';
 
-            return [
-                'body' => $image . $this->faker->paragraphs(rand(1, 6),true),
-            ];
-        });
+        return $this->state(fn() => [
+            'body' => $image . $this->faker->paragraphs(rand(1, 6),true),
+        ]);
+    }
+
+    public function withRandomDate(): Factory
+    {
+        $lastPostDate = Message::max('poster_time') ?? $this->faker->dateTimeBetween('-14 years')->getTimestamp();
+        $last = CarbonImmutable::parse($lastPostDate);
+
+        return $this->state(fn() => [
+            'poster_time' => $this->faker->dateTimeBetween($last)->getTimestamp(),
+        ]);
     }
 }

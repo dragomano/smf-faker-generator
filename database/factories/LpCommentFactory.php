@@ -16,31 +16,19 @@ class LpCommentFactory extends Factory
      */
     protected $model = LpComment::class;
 
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
-    public function definition()
+    public function definition(): array
     {
         return [
-            'author_id' => function () {
-                return Member::all()->random();
-            },
+            'author_id' => fn() => Member::all()->random(),
             'message' => $this->faker->paragraph,
             'created_at' => $this->faker->dateTimeBetween('-3 years', '-1 week')->getTimestamp(),
         ];
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-    public function createdFrom($date)
+    public function createdFrom($date): Factory
     {
-        return $this->state(function (array $attributes) use ($date) {
-            return [
-                'created_at' => $this->faker->dateTimeBetween(Date::createFromTimestamp($date))->getTimestamp(),
-            ];
-        });
+        return $this->state(fn(array $attributes) => [
+            'created_at' => $this->faker->dateTimeBetween(Date::createFromTimestamp($date))->getTimestamp(),
+        ]);
     }
 }
