@@ -27,6 +27,7 @@ class TopicObserver
             ]);
 
         $topic->update(['id_first_msg' => $message->id_msg]);
+        $topic->decrement('num_replies'); // First post is not a reply
         $topic->board->increment('num_topics');
     }
 
