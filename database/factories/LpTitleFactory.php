@@ -18,7 +18,7 @@ class LpTitleFactory extends Factory
     {
         return [
             'lang' => 'english',
-            'title' => '',
+            'title' => rtrim($this->faker->sentence, '.'),
         ];
     }
 }

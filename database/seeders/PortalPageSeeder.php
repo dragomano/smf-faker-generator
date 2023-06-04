@@ -37,19 +37,9 @@ class PortalPageSeeder extends Seeder
             ->create();
 
         $pages->each(function ($page) use ($tags, $members) {
-            LpTitle::factory()->createMany([
-                [
-                    'item_id' => $page->page_id,
-                    'type' => 'page',
-                    'lang' => 'english',
-                    'title' => 'English title #' . $page->page_id
-                ],
-                [
-                    'item_id' => $page->page_id,
-                    'type' => 'page',
-                    'lang' => 'russian',
-                    'title' => 'Заголовок на русском #' . $page->page_id
-                ],
+            LpTitle::factory()->create([
+                'item_id' => $page->page_id,
+                'type' => 'page',
             ]);
 
             LpParam::factory()->createMany([

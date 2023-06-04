@@ -16,6 +16,9 @@ class LpComment extends Model
     {
         self::created(function($model) {
             $model->page->increment('num_comments');
+            $model->page->update([
+                'last_comment_id' => $model->id
+            ]);
         });
 
         self::deleted(function($model) {

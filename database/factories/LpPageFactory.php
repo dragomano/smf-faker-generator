@@ -19,8 +19,9 @@ class LpPageFactory extends Factory
     {
         return [
             'alias' => Str::slug($this->faker->unique()->city, '_'),
+            'description' => Str::words($this->faker->sentence(10)),
             'content' => $this->faker->paragraphs(rand(1, 6), true),
-            'type' => 'bbc',
+            'type' => $this->faker->randomElement(['bbc', 'html']),
             'permissions' => 3,
             'num_views' => mt_rand(0, 9999),
             'created_at' => $this->faker->dateTimeBetween('-4 years')->getTimestamp(),
@@ -30,11 +31,12 @@ class LpPageFactory extends Factory
     public function withRandomImage(): Factory
     {
         return $this->state(function (array $attributes) {
-            $image = 'https://picsum.photos/seed/' . Str::random() . '/400/200';
+            //$random_image_url = $this->faker->imageUrl(300, 200, 'nature');
+            $random_image_url = 'https://loremflickr.com/300/200/nature?random=' . Str::random();
+
+            $image = '<img src="' .  $random_image_url . '" alt="random image"><br>';
             if ($attributes['type'] === 'bbc') {
-                $image = '[img]' .  $image . '[/img][br]';
-            } elseif ($attributes['type'] === 'html') {
-                $image = '<img src="' .  $image . '" alt=""><br>';
+                $image = '[img alt="random image"]' .  $random_image_url . '[/img][br]';
             }
 
             return [
