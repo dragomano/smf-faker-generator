@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLpPagesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -27,6 +27,8 @@ class CreateLpPagesTable extends Migration
             $table->unsignedInteger('num_comments')->default(0);
             $table->unsignedInteger('created_at')->default(0);
             $table->unsignedInteger('updated_at')->default(0);
+            $table->unsignedInteger('deleted_at')->default(0);
+            $table->unsignedInteger('last_comment_id')->default(0);
         });
     }
 
@@ -39,4 +41,4 @@ class CreateLpPagesTable extends Migration
     {
         Schema::dropIfExists('lp_pages');
     }
-}
+};
