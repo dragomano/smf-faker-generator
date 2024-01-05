@@ -22,8 +22,8 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'id_topic' => fn() => Topic::factory()->create()->id,
-            'id_board' => fn() => Board::factory()->create()->id,
+            'id_topic' => Topic::factory(),
+            'id_board' => Board::factory(),
             'poster_time' => $this->faker->dateTimeBetween('-4 years')->getTimestamp(),
             'subject' => rtrim($this->faker->sentence(rand(2, 6)), '.'),
             'body' => $this->faker->paragraphs(rand(1, 6), true),
@@ -39,8 +39,7 @@ class MessageFactory extends Factory
 
     public function withRandomImage(): Factory
     {
-        //$random_image_url = $this->faker->imageUrl(300, 200, 'nature');
-        $random_image_url = 'https://loremflickr.com/300/200/nature?random=' . Str::random();
+        $random_image_url = 'https://loremflickr.com/600/300/nature?random=' . Str::random();
         $image = '[img alt="random image"]' . $random_image_url . '[/img][br]';
 
         return $this->state(fn() => [

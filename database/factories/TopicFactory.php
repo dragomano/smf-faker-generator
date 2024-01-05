@@ -19,8 +19,8 @@ class TopicFactory extends Factory
     public function definition(): array
     {
         return [
-            'id_board' => fn() => Board::factory()->create()->id,
-            'id_member_started' => fn() => Member::factory()->create()->id,
+            'id_board' => Board::factory(),
+            'id_member_started' => Member::factory(),
             'num_views' => mt_rand(0, 9999),
             'locked' => mt_rand(1, 100) === 1 ? 1 : 0,
         ];

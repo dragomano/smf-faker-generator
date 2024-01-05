@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 
 class PortalBlockSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         collect(['header', 'top', 'left', 'right', 'bottom', 'footer'])->each(function ($value) {
             $block = LpBlock::factory()->create(['placement' => $value]);

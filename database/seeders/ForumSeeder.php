@@ -3,19 +3,17 @@
 namespace Database\Seeders;
 
 use App\Models\Board;
-use App\Models\BoardPermissionsView;
 use App\Models\Category;
 use App\Models\Member;
 use App\Models\Membergroup;
 use App\Models\Message;
 use App\Models\Topic;
-use Database\Factories\BoardPermissionsViewFactory;
 use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class ForumSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         Member::factory()->create([
             'member_name' => 'Test',
@@ -100,9 +98,7 @@ class ForumSeeder extends Seeder
         $topics = collect();
         $boards->each(
             fn($board) => $topics->push(Topic::factory(mt_rand(1, 2))
-                ->sequence(
-                    fn() => ['id_member_started' => $members->random()]
-                )
+                ->recycle($members)
                 ->create([
                     'id_board' => $board->id_board,
                 ])

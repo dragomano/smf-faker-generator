@@ -7,11 +7,11 @@ use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         DB::disableQueryLog();
         $this->call(ForumSeeder::class);
-        $this->call(PortalBlockSeeder::class);
+        //$this->call(PortalBlockSeeder::class);
         $this->call(PortalPageSeeder::class);
     }
 }

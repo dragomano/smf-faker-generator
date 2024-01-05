@@ -18,7 +18,7 @@ class BoardFactory extends Factory
     public function definition(): array
     {
         return [
-            'id_cat' => fn() => Category::factory()->create()->id,
+            'id_cat' => Category::factory(),
             'name' => rtrim($this->faker->sentence(rand(2, 6)), '.'),
             'description' => $this->faker->paragraph,
         ];

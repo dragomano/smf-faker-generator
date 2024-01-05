@@ -31,8 +31,7 @@ class LpPageFactory extends Factory
     public function withRandomImage(): Factory
     {
         return $this->state(function (array $attributes) {
-            //$random_image_url = $this->faker->imageUrl(300, 200, 'nature');
-            $random_image_url = 'https://loremflickr.com/300/200/nature?random=' . Str::random();
+            $random_image_url = 'https://loremflickr.com/600/300/nature?random=' . Str::random();
 
             $image = '<img src="' .  $random_image_url . '" alt="random image"><br>';
             if ($attributes['type'] === 'bbc') {

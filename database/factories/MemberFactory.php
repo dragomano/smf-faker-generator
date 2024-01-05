@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Member;
+use App\Models\Membergroup;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 

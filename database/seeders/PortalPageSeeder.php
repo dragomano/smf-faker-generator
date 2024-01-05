@@ -9,16 +9,15 @@ use App\Models\LpParam;
 use App\Models\LpTag;
 use App\Models\LpTitle;
 use App\Models\Member;
-use Illuminate\Database\Eloquent\Factories\Sequence;
 use Illuminate\Database\Seeder;
 
 class PortalPageSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $members = Member::all();
 
-        if (! $members) {
+        if ($members->isEmpty()) {
             $members = Member::factory(10)->create();
         }
 
@@ -27,13 +26,9 @@ class PortalPageSeeder extends Seeder
         $tags = LpTag::factory(30)->create();
 
         $pages = LpPage::factory(200)
+            ->recycle($categories)
+            ->recycle($members)
             ->withRandomImage()
-            ->sequence(
-                fn() => [
-                    'category_id' => $categories->random(),
-                    'author_id' => $members->random()
-                ]
-            )
             ->create();
 
         $pages->each(function ($page) use ($tags, $members) {
@@ -70,9 +65,7 @@ class PortalPageSeeder extends Seeder
             ]);
 
             LpComment::factory(mt_rand(0, 20))
-                ->sequence(
-                    fn() => ['author_id' => $members->random()]
-                )
+                ->recycle($members)
                 ->create([
                     'page_id' => $page->page_id,
                 ]);
