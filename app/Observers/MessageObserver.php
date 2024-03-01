@@ -12,7 +12,7 @@ class MessageObserver
      * @param Message $message
      * @return void
      */
-    public function created(Message $message)
+    public function created(Message $message): void
     {
         $message->member->increment('posts');
         $message->topic->increment('num_replies');
@@ -37,7 +37,7 @@ class MessageObserver
      * @param Message $message
      * @return void
      */
-    public function deleted(Message $message)
+    public function deleted(Message $message): void
     {
         $message->member->decrement('posts');
         $message->topic->decrement('num_replies');

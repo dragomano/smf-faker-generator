@@ -13,7 +13,7 @@ class TopicObserver
      * @param Topic $topic
      * @return void
      */
-    public function created(Topic $topic)
+    public function created(Topic $topic): void
     {
         $message = Message::factory()
             ->withRandomImage()
@@ -48,7 +48,7 @@ class TopicObserver
      * @param Topic $topic
      * @return void
      */
-    public function deleted(Topic $topic)
+    public function deleted(Topic $topic): void
     {
         $topic->board->decrement('num_topics');
     }

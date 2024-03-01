@@ -8,11 +8,6 @@ use Illuminate\Support\Str;
 
 class LpBlockFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = LpBlock::class;
 
     public function definition(): array

@@ -8,11 +8,6 @@ use Illuminate\Support\Str;
 
 class LpPageFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = LpPage::class;
 
     public function definition(): array
@@ -21,7 +16,7 @@ class LpPageFactory extends Factory
             'alias' => Str::slug($this->faker->unique()->city, '_'),
             'description' => Str::words($this->faker->sentence(10)),
             'content' => $this->faker->paragraphs(rand(1, 6), true),
-            'type' => $this->faker->randomElement(['bbc', 'html']),
+            'type' => $this->faker->randomElement(['bbc', 'html', 'markdown']),
             'permissions' => 3,
             'num_views' => mt_rand(0, 9999),
             'created_at' => $this->faker->dateTimeBetween('-4 years')->getTimestamp(),

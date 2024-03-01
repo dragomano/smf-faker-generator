@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('lp_blocks', function (Blueprint $table) {
             $table->increments('block_id');
-            $table->string('icon', 255)->nullable();
+            $table->string('icon', 60)->nullable();
             $table->string('type', 255);
             $table->string('note', 255)->nullable();
             $table->text('content')->nullable();

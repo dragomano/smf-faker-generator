@@ -15,7 +15,7 @@ class Board extends Model
 
     protected $primaryKey = 'id_board';
 
-    protected static function booted()
+    protected static function booted(): void
     {
         self::created(function ($model) {
             $model->board_order = Board::max('board_order') + 1;

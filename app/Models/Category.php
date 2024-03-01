@@ -14,7 +14,7 @@ class Category extends Model
 
     protected $primaryKey = 'id_cat';
 
-    protected static function booted()
+    protected static function booted(): void
     {
         self::created(function ($model) {
             $model->cat_order = Category::max('cat_order') + 1;

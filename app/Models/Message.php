@@ -14,12 +14,12 @@ class Message extends Model
 
     protected $primaryKey = 'id_msg';
 
-    public function getPosterIpAttribute($value)
+    public function getPosterIpAttribute($value): bool|string
     {
         return inet_ntop($value);
     }
 
-    public function setPosterIpAttribute($value)
+    public function setPosterIpAttribute($value): void
     {
         $this->attributes['poster_ip'] = inet_pton($value);
     }

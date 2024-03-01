@@ -12,11 +12,6 @@ use JetBrains\PhpStorm\ArrayShape;
 
 class MessageFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Message::class;
 
     public function definition(): array

@@ -18,7 +18,14 @@ class PortalBlockSeeder extends Seeder
                 'item_id' => $block->block_id,
                 'type' => 'block',
                 'lang' => 'english',
-                'title' => Str::headline($value) . ' #' . $block->block_id
+                'title' => 'Block ' . Str::headline($value) . ' #' . $block->block_id
+            ]);
+
+            LpTitle::factory()->create([
+                'item_id' => $block->block_id,
+                'type' => 'block',
+                'lang' => 'russian',
+                'title' => 'Блок ' . Str::headline($value) . ' #' . $block->block_id
             ]);
         });
     }

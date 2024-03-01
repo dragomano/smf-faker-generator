@@ -9,11 +9,6 @@ use Illuminate\Support\Facades\Date;
 
 class LpCommentFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = LpComment::class;
 
     public function definition(): array

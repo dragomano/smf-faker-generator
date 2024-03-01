@@ -8,11 +8,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class BoardFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Board::class;
 
     public function definition(): array

@@ -7,11 +7,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 
 class MembergroupFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Membergroup::class;
 
     public function definition(): array

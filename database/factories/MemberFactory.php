@@ -9,11 +9,6 @@ use Illuminate\Support\Str;
 
 class MemberFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = Member::class;
 
     public function definition(): array

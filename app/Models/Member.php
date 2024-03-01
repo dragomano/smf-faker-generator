@@ -58,7 +58,7 @@ class Member extends Authenticatable
         return $this->hasMany(LpComment::class, 'author_id', 'id_member');
     }
 
-    public static function getHashedPassword($name, $password)
+    public static function getHashedPassword($name, $password): string
     {
         return password_hash(Str::lower($name) . $password, PASSWORD_BCRYPT);
     }
