@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LpPage extends Model
@@ -15,7 +16,7 @@ class LpPage extends Model
 
     protected $primaryKey = 'page_id';
 
-    public static function booted()
+    public static function booted(): void
     {
         self::created(function($model) {
             $model->update([
@@ -25,6 +26,7 @@ class LpPage extends Model
 
         self::deleted(function($model) {
             $model->comments->each->delete();
+            $model->tags()->detach();
         });
     }
 
@@ -36,6 +38,11 @@ class LpPage extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(LpCategory::class, 'category_id', 'category_id');
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(LpTag::class, 'lp_page_tags', 'page_id', 'tag_id');
     }
 
     public function comments(): HasMany

@@ -13,12 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('lp_categories', function (Blueprint $table) {
-            $table->increments('category_id');
-            $table->string('icon', 60)->nullable();
-            $table->string('description', 255)->nullable();
-            $table->unsignedTinyInteger('priority')->default(0);
-            $table->unsignedTinyInteger('status')->default(1);
+        Schema::create('lp_page_tags', function (Blueprint $table) {
+            $table->unsignedInteger('page_id');
+            $table->unsignedInteger('tag_id');
         });
     }
 
@@ -29,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lp_categories');
+        Schema::dropIfExists('lp_page_tags');
     }
 };

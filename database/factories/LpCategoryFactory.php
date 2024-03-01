@@ -8,17 +8,12 @@ use Illuminate\Support\Str;
 
 class LpCategoryFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
     protected $model = LpCategory::class;
 
     public function definition(): array
     {
         return [
-            'name' => Str::ucfirst($this->faker->unique()->words(rand(1, 3), true)),
+            'icon' => 'fas fa-folder',
             'description' => Str::limit($this->faker->paragraph, 250),
         ];
     }

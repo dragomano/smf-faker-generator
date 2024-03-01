@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('lp_tags', function (Blueprint $table) {
             $table->increments('tag_id');
-            $table->string('value', 255)->nullable();
+            $table->string('icon', 60)->nullable();
+            $table->unsignedTinyInteger('status')->default(1);
         });
     }
 

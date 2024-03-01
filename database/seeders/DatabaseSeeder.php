@@ -12,6 +12,8 @@ class DatabaseSeeder extends Seeder
         DB::disableQueryLog();
         $this->call(ForumSeeder::class);
         //$this->call(PortalBlockSeeder::class);
+        $this->call(PortalCategorySeeder::class);
+        $this->call(PortalTagSeeder::class);
         $this->call(PortalPageSeeder::class);
     }
 }
