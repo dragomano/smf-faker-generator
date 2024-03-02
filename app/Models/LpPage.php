@@ -40,6 +40,11 @@ class LpPage extends Model
         return $this->belongsTo(LpCategory::class, 'category_id', 'category_id');
     }
 
+    public function params(): HasMany
+    {
+        return $this->hasMany(LpParam::class, 'item_id', 'page_id')->where('type', 'page');
+    }
+
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(LpTag::class, 'lp_page_tags', 'page_id', 'tag_id');
@@ -48,5 +53,10 @@ class LpPage extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(LpComment::class, 'page_id');
+    }
+
+    public function titles(): HasMany
+    {
+        return $this->hasMany(LpTitle::class, 'item_id', 'page_id')->where('type', 'page');
     }
 }

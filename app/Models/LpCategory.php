@@ -18,4 +18,9 @@ class LpCategory extends Model
     {
         return $this->hasMany(LpPage::class, 'category_id', 'category_id');
     }
+
+    public function titles(): HasMany
+    {
+        return $this->hasMany(LpTitle::class, 'item_id', 'category_id')->where('type', 'category');
+    }
 }

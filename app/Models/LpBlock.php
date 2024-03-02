@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LpBlock extends Model
 {
@@ -14,8 +14,13 @@ class LpBlock extends Model
 
     protected $primaryKey = 'block_id';
 
-    public function params(): HasManyThrough
+    public function params(): HasMany
     {
-        return $this->hasManyThrough(LpTag::class, LpParam::class, 'item_id', 'tag_id', 'block_id');
+        return $this->hasMany(LpParam::class, 'item_id', 'block_id')->where('type', 'block');
+    }
+
+    public function titles(): HasMany
+    {
+        return $this->hasMany(LpTitle::class, 'item_id', 'block_id')->where('type', 'block');
     }
 }

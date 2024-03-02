@@ -14,18 +14,19 @@ class PortalBlockSeeder extends Seeder
         collect(['header', 'top', 'left', 'right', 'bottom', 'footer'])->each(function ($value) {
             $block = LpBlock::factory()->create(['placement' => $value]);
 
-            LpTitle::factory()->create([
-                'item_id' => $block->block_id,
-                'type' => 'block',
-                'lang' => 'english',
-                'title' => 'Block ' . Str::headline($value) . ' #' . $block->block_id
-            ]);
-
-            LpTitle::factory()->create([
-                'item_id' => $block->block_id,
-                'type' => 'block',
-                'lang' => 'russian',
-                'title' => 'Блок ' . Str::headline($value) . ' #' . $block->block_id
+            LpTitle::factory()->createMany([
+                [
+                    'item_id' => $block->block_id,
+                    'type' => 'block',
+                    'lang' => 'english',
+                    'title' => 'Block ' . Str::headline($value) . ' #' . $block->block_id,
+                ],
+                [
+                    'item_id' => $block->block_id,
+                    'type' => 'block',
+                    'lang' => 'russian',
+                    'title' => 'Блок ' . Str::headline($value) . ' #' . $block->block_id,
+                ],
             ]);
         });
     }

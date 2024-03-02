@@ -13,25 +13,23 @@ class PortalCategorySeeder extends Seeder
     {
         $categories = LpCategory::factory(10)->create();
 
-        $fakerEnglish = Factory::create();
-
-        $categories->each(function ($category) use ($fakerEnglish) {
-            LpTitle::factory()->create([
-                'item_id' => $category->category_id,
-                'type' => 'category',
-                'lang' => 'english',
-                'title' => $fakerEnglish->jobTitle(),
-            ]);
-        });
-
+        $fakerEnglish = Factory::create('en_US');
         $fakerRussian = Factory::create('ru_RU');
 
-        $categories->each(function ($category) use ($fakerRussian) {
-            LpTitle::factory()->create([
-                'item_id' => $category->category_id,
-                'type' => 'category',
-                'lang' => 'russian',
-                'title' => $fakerRussian->jobTitle(),
+        $categories->each(function ($category) use ($fakerEnglish, $fakerRussian) {
+            LpTitle::factory()->createMany([
+                [
+                    'item_id' => $category->category_id,
+                    'type' => 'category',
+                    'lang' => 'english',
+                    'title' => $fakerEnglish->jobTitle(),
+                ],
+                [
+                    'item_id' => $category->category_id,
+                    'type' => 'category',
+                    'lang' => 'russian',
+                    'title' => $fakerRussian->jobTitle(),
+                ],
             ]);
         });
     }

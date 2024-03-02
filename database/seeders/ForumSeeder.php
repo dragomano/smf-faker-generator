@@ -77,7 +77,7 @@ class ForumSeeder extends Seeder
 
         $groups = Membergroup::factory(10)->create();
 
-        $members = Member::factory(mt_rand(52, 128))
+        $members = Member::factory(50)
             ->sequence(
                 fn() => ['id_group' => $groups->random()]
             )

@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\LpCategory;
 use App\Models\LpComment;
 use App\Models\LpPage;
-use App\Models\LpPageTag;
 use App\Models\LpParam;
 use App\Models\LpTag;
 use App\Models\LpTitle;
@@ -33,9 +32,17 @@ class PortalPageSeeder extends Seeder
             ->create();
 
         $pages->each(function ($page) use ($tags, $members) {
-            LpTitle::factory()->create([
-                'item_id' => $page->page_id,
-                'type' => 'page',
+            LpTitle::factory()->createMany([
+                [
+                    'item_id' => $page->page_id,
+                    'type' => 'page',
+                    'lang' => 'english',
+                ],
+                [
+                    'item_id' => $page->page_id,
+                    'type' => 'page',
+                    'lang' => 'russian',
+                ],
             ]);
 
             $randomTags = $tags->random(rand(1, 5));
@@ -48,19 +55,19 @@ class PortalPageSeeder extends Seeder
                     'item_id' => $page->page_id,
                     'type' => 'page',
                     'name' => 'show_author_and_date',
-                    'value' => true
+                    'value' => true,
                 ],
                 [
                     'item_id' => $page->page_id,
                     'type' => 'page',
                     'name' => 'show_related_pages',
-                    'value' => true
+                    'value' => true,
                 ],
                 [
                     'item_id' => $page->page_id,
                     'type' => 'page',
                     'name' => 'allow_comments',
-                    'value' => true
+                    'value' => true,
                 ],
             ]);
 

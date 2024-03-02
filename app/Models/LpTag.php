@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class LpTag extends Model
 {
@@ -24,5 +25,10 @@ class LpTag extends Model
     public function pages(): BelongsToMany
     {
         return $this->belongsToMany(LpPage::class, 'lp_page_tags', 'tag_id', 'page_id');
+    }
+
+    public function titles(): HasMany
+    {
+        return $this->hasMany(LpTitle::class, 'item_id', 'tag_id')->where('type', 'tag');
     }
 }

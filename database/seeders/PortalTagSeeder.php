@@ -13,25 +13,23 @@ class PortalTagSeeder extends Seeder
     {
         $tags = LpTag::factory(30)->create();
 
-        $fakerEnglish = Factory::create();
-
-        $tags->each(function ($tag) use ($fakerEnglish) {
-            LpTitle::factory()->create([
-                'item_id' => $tag->tag_id,
-                'type' => 'tag',
-                'lang' => 'english',
-                'title' => $fakerEnglish->unique()->city,
-            ]);
-        });
-
+        $fakerEnglish = Factory::create('en_US');
         $fakerRussian = Factory::create('ru_RU');
 
-        $tags->each(function ($tag) use ($fakerRussian) {
-            LpTitle::factory()->create([
-                'item_id' => $tag->tag_id,
-                'type' => 'tag',
-                'lang' => 'russian',
-                'title' => $fakerRussian->unique()->city,
+        $tags->each(function ($tag) use ($fakerEnglish, $fakerRussian) {
+            LpTitle::factory()->createMany([
+                [
+                    'item_id' => $tag->tag_id,
+                    'type' => 'tag',
+                    'lang' => 'english',
+                    'title' => $fakerEnglish->unique()->city,
+                ],
+                [
+                    'item_id' => $tag->tag_id,
+                    'type' => 'tag',
+                    'lang' => 'russian',
+                    'title' => $fakerRussian->unique()->city,
+                ],
             ]);
         });
     }
