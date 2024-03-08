@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\LpTag;
 use App\Models\LpTitle;
+use Bugo\FontAwesomeHelper\SolidIcon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 
@@ -11,7 +12,11 @@ class PortalTagSeeder extends Seeder
 {
     public function run(): void
     {
-        $tags = LpTag::factory(30)->create();
+        $solidIcon = new SolidIcon(['deprecated_class' => true]);
+
+        $tags = LpTag::factory(30)
+            ->sequence(fn() => ['icon' => $solidIcon->random()])
+            ->create();
 
         $fakerEnglish = Factory::create('en_US');
         $fakerRussian = Factory::create('ru_RU');

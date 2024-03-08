@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\LpBlock;
 use App\Models\LpTitle;
+use Bugo\FontAwesomeHelper\RegularIcon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -12,7 +13,11 @@ class PortalBlockSeeder extends Seeder
     public function run(): void
     {
         collect(['header', 'top', 'left', 'right', 'bottom', 'footer'])->each(function ($value) {
-            $block = LpBlock::factory()->create(['placement' => $value]);
+            $regularIcon = new RegularIcon(['deprecated_class' => true]);
+
+            $block = LpBlock::factory()
+                ->sequence(fn() => ['icon' => $regularIcon->random()])
+                ->create(['placement' => $value]);
 
             LpTitle::factory()->createMany([
                 [

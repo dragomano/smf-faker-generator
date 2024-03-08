@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\LpCategory;
 use App\Models\LpTitle;
+use Bugo\FontAwesomeHelper\BrandIcon;
 use Faker\Factory;
 use Illuminate\Database\Seeder;
 
@@ -11,7 +12,11 @@ class PortalCategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $categories = LpCategory::factory(10)->create();
+        $brandIcon = new BrandIcon(['deprecated_class' => true]);
+
+        $categories = LpCategory::factory(10)
+            ->sequence(fn() => ['icon' => $brandIcon->random()])
+            ->create();
 
         $fakerEnglish = Factory::create('en_US');
         $fakerRussian = Factory::create('ru_RU');
