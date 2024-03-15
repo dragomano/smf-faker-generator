@@ -17,7 +17,7 @@ class MemberFactory extends Factory
             'member_name' => $memberName = Str::slug($name = $this->faker->unique()->name(), '_'),
             'date_registered' => $this->faker->dateTimeBetween('-5 years')->getTimestamp(),
             'real_name' => $name,
-            'passwd' => Member::getHashedPassword($memberName, 'password'),
+            'passwd' => Member::getHashedPassword($memberName, 'Sbs)2id(Pep5I!2A' . $memberName),
             'email_address' => $this->faker->unique()->safeEmail(),
             'birthdate' => $this->faker->dateTimeBetween('-50 years', '-20 years'),
         ];

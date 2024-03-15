@@ -35,7 +35,7 @@ class MessageFactory extends Factory
     public function withRandomImage(): Factory
     {
         $random_image_url = 'https://loremflickr.com/600/300/nature?random=' . Str::random();
-        $image = '[img alt="random image"]' . $random_image_url . '[/img][br]';
+        $image = '[img alt=random image]' . $random_image_url . '[/img][br]';
 
         return $this->state(fn() => [
             'body' => $image . $this->faker->paragraphs(rand(1, 6),true),
