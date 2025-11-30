@@ -54,7 +54,7 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL', null),
+    'asset_url' => env('ASSET_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -81,6 +81,11 @@ return [
     */
 
     'locale' => 'ru',
+
+    'languages' => [
+        'en' => 'english',
+        'ru' => 'russian',
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -174,8 +179,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
-
+        App\Providers\MoonShineServiceProvider::class,
     ],
 
     /*
@@ -231,5 +235,4 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
 ];

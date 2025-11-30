@@ -12,9 +12,9 @@ class MembergroupFactory extends Factory
     public function definition(): array
     {
         return [
-            'group_name' => $this->faker->unique()->country(),
-            'description' => $this->faker->sentence,
-            'online_color' => $this->faker->unique()->hexColor(),
+            'group_name' => fake()->unique()->country(),
+            'description' => fake()->sentence,
+            'online_color' => fake()->unique()->hexColor(),
             'icons' => '1#icon.png',
         ];
     }

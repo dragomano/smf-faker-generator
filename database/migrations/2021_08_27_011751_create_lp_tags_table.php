@@ -8,13 +8,12 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('lp_tags', function (Blueprint $table) {
             $table->increments('tag_id');
+            $table->string('slug', 255)->unique();
             $table->string('icon', 60)->nullable();
             $table->unsignedTinyInteger('status')->default(1);
         });
@@ -22,10 +21,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('lp_tags');
     }

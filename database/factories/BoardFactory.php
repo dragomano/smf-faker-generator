@@ -14,8 +14,8 @@ class BoardFactory extends Factory
     {
         return [
             'id_cat' => Category::factory(),
-            'name' => rtrim($this->faker->sentence(rand(2, 6)), '.'),
-            'description' => $this->faker->paragraph,
+            'name' => rtrim(fake()->sentence(rand(2, 6)), '.'),
+            'description' => fake()->paragraph,
         ];
     }
 }

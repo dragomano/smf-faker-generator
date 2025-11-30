@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Observers\BoardObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+#[ObservedBy([BoardObserver::class])]
 class Board extends Model
 {
     use HasFactory;
@@ -15,11 +18,19 @@ class Board extends Model
 
     protected $primaryKey = 'id_board';
 
-    protected static function booted(): void
+    protected $fillable = [
+        'id_cat',
+        'child_level',
+        'id_parent',
+        'board_order',
+        'member_groups',
+        'name',
+        'description',
+    ];
+
+    public function parent(): BelongsTo
     {
-        self::created(function ($model) {
-            $model->board_order = Board::max('board_order') + 1;
-        });
+        return $this->belongsTo(Board::class, 'id_parent');
     }
 
     public function category(): BelongsTo

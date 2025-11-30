@@ -8,19 +8,16 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('lp_pages', function (Blueprint $table) {
             $table->increments('page_id');
             $table->unsignedInteger('category_id')->default(0);
             $table->unsignedMediumInteger('author_id')->default(0);
-            $table->string('alias', 255)->unique();
-            $table->string('description', 255)->nullable();
-            $table->mediumText('content');
+            $table->string('slug', 255)->unique();
             $table->string('type', 10)->default('bbc');
+            $table->string('entry_type', 10)->default('default');
             $table->unsignedTinyInteger('permissions')->default(0);
             $table->unsignedTinyInteger('status')->default(1);
             $table->unsignedInteger('num_views')->default(0);
@@ -34,10 +31,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('lp_pages');
     }

@@ -2,105 +2,125 @@
 
 namespace Database\Seeders;
 
-use App\Models\LpCategory;
-use App\Models\LpComment;
-use App\Models\LpPage;
-use App\Models\LpParam;
-use App\Models\LpTag;
-use App\Models\LpTitle;
+use App\Models\PortalCategory;
+use App\Models\PortalPage;
+use App\Models\PortalParam;
+use App\Models\PortalTag;
+use App\Models\PortalTranslation;
 use App\Models\Member;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class PortalPageSeeder extends Seeder
 {
     public function run(): void
     {
-        $members = Member::all();
+        PortalPage::unsetEventDispatcher();
+        PortalTranslation::unsetEventDispatcher();
+        PortalParam::unsetEventDispatcher();
 
-        if ($members->isEmpty()) {
-            $members = Member::factory(10)->create();
+        $memberIds = Member::pluck('id_member')->all();
+        $categoryIds = PortalCategory::pluck('category_id')->all();
+        $tagIds = PortalTag::pluck('tag_id')->all();
+
+        if (empty($memberIds) || empty($categoryIds) || empty($tagIds)) {
+            return;
         }
 
-        $categories = LpCategory::all();
+        $currentDate = now()->subYears(2)->startOfDay();
 
-        $tags = LpTag::all();
+        for ($i = 0; $i < 50; $i++) {
+            $currentDate->addMinutes(mt_rand(240, 4320));
 
-        $pages = LpPage::factory(200)
-            ->recycle($categories)
-            ->recycle($members)
-            ->withRandomImage()
-            ->create();
-
-        $pages->each(function ($page) use ($tags, $members) {
-            LpTitle::factory()->createMany([
-                [
-                    'item_id' => $page->page_id,
-                    'type' => 'page',
-                    'lang' => 'english',
-                ],
-                [
-                    'item_id' => $page->page_id,
-                    'type' => 'page',
-                    'lang' => 'russian',
-                ],
+            PortalPage::factory()->create([
+                'author_id'   => Arr::random($memberIds),
+                'category_id' => Arr::random($categoryIds),
+                'created_at'  => $currentDate->timestamp,
             ]);
+        }
 
-            $randomTags = $tags->random(rand(1, 5));
-            $randomTags->each(function ($tag) use ($page) {
-                $page->tags()->attach($tag->tag_id);
+        unset($memberIds, $categoryIds);
+
+        PortalPage::query()
+            ->orderBy('page_id')
+            ->chunkById(50, function ($pages) use ($tagIds) {
+                $pageIds = $pages->pluck('page_id')->all();
+                $pageTypes = $pages->pluck('type', 'page_id')->all();
+
+                $translations = [];
+                $pivot = [];
+                $params = [];
+
+                foreach ($pageIds as $pageId) {
+                    $type = $pageTypes[$pageId] ?? 'bbc';
+
+                    $translations[] = PortalTranslation::factory()
+                        ->withRandomImage($type)
+                        ->make([
+                            'item_id' => $pageId,
+                            'type' => 'page',
+                            'lang' => 'english',
+                        ])
+                        ->toArray();
+
+                    $translations[] = PortalTranslation::factory()
+                        ->withRandomImage($type)
+                        ->make([
+                            'item_id' => $pageId,
+                            'type' => 'page',
+                            'lang' => 'russian',
+                        ])
+                        ->toArray();
+
+                    $tagCount = rand(1, 5);
+                    $randomKeys = array_rand($tagIds, $tagCount);
+                    if (! is_array($randomKeys)) {
+                        $randomKeys = [$randomKeys];
+                    }
+
+                    foreach ($randomKeys as $key) {
+                        $pivot[] = [
+                            'page_id' => $pageId,
+                            'tag_id' => $tagIds[$key],
+                        ];
+                    }
+
+                    $params[] = [
+                        'item_id' => $pageId,
+                        'type' => 'page',
+                        'name' => 'show_author_and_date',
+                        'value' => true,
+                    ];
+                    $params[] = [
+                        'item_id' => $pageId,
+                        'type' => 'page',
+                        'name' => 'show_related_pages',
+                        'value' => true,
+                    ];
+                    $params[] = [
+                        'item_id' => $pageId,
+                        'type' => 'page',
+                        'name' => 'allow_comments',
+                        'value' => true,
+                    ];
+                }
+
+                if (! empty($translations)) {
+                    PortalTranslation::insert($translations);
+                }
+
+                if (! empty($pivot)) {
+                    DB::table('lp_page_tag')->insert($pivot);
+                }
+
+                if (! empty($params)) {
+                    PortalParam::insert($params);
+                }
+
+                unset($pageIds, $pageTypes, $translations, $pivot, $params);
             });
 
-            LpParam::factory()->createMany([
-                [
-                    'item_id' => $page->page_id,
-                    'type' => 'page',
-                    'name' => 'show_author_and_date',
-                    'value' => true,
-                ],
-                [
-                    'item_id' => $page->page_id,
-                    'type' => 'page',
-                    'name' => 'show_related_pages',
-                    'value' => true,
-                ],
-                [
-                    'item_id' => $page->page_id,
-                    'type' => 'page',
-                    'name' => 'allow_comments',
-                    'value' => true,
-                ],
-            ]);
-
-            LpComment::factory(mt_rand(0, 20))
-                ->recycle($members)
-                ->create([
-                    'page_id' => $page->page_id,
-                ]);
-        });
-
-        $comments = LpComment::all();
-        $childComments = $comments->each(function ($comment) {
-            LpComment::factory(mt_rand(0, 3))
-                ->sequence(
-                    fn() => [
-                        'page_id' => $comment->page_id,
-                        'parent_id' => $comment->id,
-                    ]
-                )
-                ->createdFrom($comment->created_at)
-                ->create();
-        });
-
-        $childComments->each(function ($comment) {
-            LpComment::factory(mt_rand(0, 3))
-                ->sequence(
-                    fn() => [
-                        'page_id' => $comment->page_id,
-                        'parent_id' => $comment->id,
-                    ]
-                )
-                ->createdFrom($comment->created_at)
-                ->create();
-        });
+        unset($tagIds);
     }
 }

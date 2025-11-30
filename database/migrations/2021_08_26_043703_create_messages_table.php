@@ -8,10 +8,8 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id('id_msg');
@@ -22,6 +20,7 @@ return new class extends Migration
             $table->string('subject', 255)->default('');
             $table->string('poster_name', 255)->default('');
             $table->string('poster_email', 255)->default('');
+            $table->unsignedInteger('modified_time')->default(0);
             $table->text('body');
             $table->unsignedTinyInteger('approved')->default(1);
             $table->foreign('id_topic')->references('id_topic')->on('topics')->cascadeOnDelete();
@@ -32,10 +31,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('messages');
     }

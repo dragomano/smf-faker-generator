@@ -2,38 +2,30 @@
 
 namespace Database\Seeders;
 
-use App\Models\LpCategory;
-use App\Models\LpTitle;
-use Bugo\FontAwesomeHelper\BrandIcon;
-use Faker\Factory;
+use App\Models\PortalCategory;
+use Bugo\FontAwesome\Icon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class PortalCategorySeeder extends Seeder
 {
     public function run(): void
     {
-        $brandIcon = new BrandIcon(['deprecated_class' => true]);
-
-        $categories = LpCategory::factory(10)
-            ->sequence(fn() => ['icon' => $brandIcon->random()])
+        $categories = PortalCategory::factory(10)
+            ->sequence(fn() => ['icon' => Icon::random(useOldStyle: true)])
             ->create();
 
-        $fakerEnglish = Factory::create('en_US');
-        $fakerRussian = Factory::create('ru_RU');
-
-        $categories->each(function ($category) use ($fakerEnglish, $fakerRussian) {
-            LpTitle::factory()->createMany([
+        $categories->each(function ($category) {
+            $category->translations()->createMany([
                 [
-                    'item_id' => $category->category_id,
-                    'type' => 'category',
                     'lang' => 'english',
-                    'title' => $fakerEnglish->jobTitle(),
+                    'title' => fake()->unique()->jobTitle,
+                    'description' => Str::limit(fake()->paragraphs(rand(1, 2), true), 500),
                 ],
                 [
-                    'item_id' => $category->category_id,
-                    'type' => 'category',
                     'lang' => 'russian',
-                    'title' => $fakerRussian->jobTitle(),
+                    'title' => fake('ru_RU')->unique()->jobTitle,
+                    'description' => Str::limit(fake()->paragraphs(rand(1, 2), true), 500),
                 ],
             ]);
         });

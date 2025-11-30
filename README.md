@@ -1,15 +1,24 @@
-## SMF Database Seeder
+## SMF Faker Generator
 
-Этот пакет предназначен для генерации таблиц с липовым содержимым для тестирования SMF и Light Portal.
+This package is designed to populate database tables with fake SMF and Light Portal data.
 
-### Использование
+### Usage
 
-Настройте параметры подключения к базе данных в файле `.env` (для примера используйте `.env.example`).
+* Extract the package files into any directory.
+* Get the API on the website https://www.pexels.com/api/api-key/ (for generating random images).
+* Configure the database connection parameters in the `.env` file (see the example in `.env.example`).
+* Specify `PEXELS_API_KEY` there.
+* Select what to generate in the `database/seeders/DatabaseSeeder.php` file.
+* Run the following commands in the console:
 
-Выберите, что именно генерировать, в файле `database/seeders/DatabaseSeeder.php`.
+    `composer install`
 
-Выполните в консоли следующую команду:
+    `php artisan migrate:fresh --seed`
 
-`php artisan migrate:fresh --seed`
+* Create snapshots for specific tables or for the entire database:
 
-После этого можно экспортировать нужные данные в вашу базу данных на реальном форуме.
+    `php artisan snapshot:create --table=smf_boards`
+    
+    `php artisan snapshot:create`
+
+* After that, you can import the required data into your real forum database.

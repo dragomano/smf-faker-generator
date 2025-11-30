@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use App\Models\LpBlock;
-use App\Models\LpTitle;
-use Bugo\FontAwesomeHelper\RegularIcon;
+use App\Models\PortalBlock;
+use Bugo\FontAwesome\Icon;
+use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -13,26 +13,25 @@ class PortalBlockSeeder extends Seeder
     public function run(): void
     {
         collect(['header', 'top', 'left', 'right', 'bottom', 'footer'])->each(function ($value) {
-            $regularIcon = new RegularIcon(['deprecated_class' => true]);
+            try {
+                $block = PortalBlock::factory()
+                    ->sequence(fn() => ['icon' => Icon::random(useOldStyle: true)])
+                    ->create(['placement' => $value]);
 
-            $block = LpBlock::factory()
-                ->sequence(fn() => ['icon' => $regularIcon->random()])
-                ->create(['placement' => $value]);
-
-            LpTitle::factory()->createMany([
-                [
-                    'item_id' => $block->block_id,
-                    'type' => 'block',
-                    'lang' => 'english',
-                    'title' => 'Block ' . Str::headline($value) . ' #' . $block->block_id,
-                ],
-                [
-                    'item_id' => $block->block_id,
-                    'type' => 'block',
-                    'lang' => 'russian',
-                    'title' => 'Блок ' . Str::headline($value) . ' #' . $block->block_id,
-                ],
-            ]);
+                /* @var PortalBlock $block */
+                $block->translations()->createMany([
+                    [
+                        'lang' => 'english',
+                        'title' => 'Block ' . Str::headline($value) . ' #' . $block->block_id,
+                        'content' => fake()->paragraphs(1, true),
+                    ],
+                    [
+                        'lang' => 'russian',
+                        'title' => 'Блок ' . Str::headline($value) . ' #' . $block->block_id,
+                        'content' => fake()->paragraphs(1, true),
+                    ],
+                ]);
+            } catch (Exception) {}
         });
     }
 }

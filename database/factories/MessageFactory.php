@@ -5,13 +5,12 @@ namespace Database\Factories;
 use App\Models\Board;
 use App\Models\Message;
 use App\Models\Topic;
-use Carbon\CarbonImmutable;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Str;
-use JetBrains\PhpStorm\ArrayShape;
 
 class MessageFactory extends Factory
 {
+    use RandomImageTrait;
+
     protected $model = Message::class;
 
     public function definition(): array
@@ -19,36 +18,38 @@ class MessageFactory extends Factory
         return [
             'id_topic' => Topic::factory(),
             'id_board' => Board::factory(),
-            'poster_time' => $this->faker->dateTimeBetween('-4 years')->getTimestamp(),
-            'subject' => rtrim($this->faker->sentence(rand(2, 6)), '.'),
-            'body' => $this->faker->paragraphs(rand(1, 6), true),
+            'poster_time' => fake()->dateTimeBetween('-4 years')->getTimestamp(),
+            'subject' => rtrim(fake()->sentence(rand(2, 6)), '.'),
+            'body' => fake()->paragraphs(rand(1, 6), true),
         ];
     }
 
-    public function unapproved(): Factory
+    public function unapproved(): self
     {
         return $this->state(fn() => [
             'approved' => 0,
         ]);
     }
 
-    public function withRandomImage(): Factory
+    public function withSequentialDate(int &$timestamp): self
     {
-        $random_image_url = 'https://loremflickr.com/600/300/nature?random=' . Str::random();
-        $image = '[img alt=random image]' . $random_image_url . '[/img][br]';
+        return $this->state(function () use (&$timestamp) {
+            $timestamp += mt_rand(600, 86400);
 
-        return $this->state(fn() => [
-            'body' => $image . $this->faker->paragraphs(rand(1, 6),true),
-        ]);
+            return [
+                'poster_time' => $timestamp,
+            ];
+        });
     }
 
-    public function withRandomDate(): Factory
+    public function withRandomImage(): self
     {
-        $lastPostDate = Message::max('poster_time') ?? $this->faker->dateTimeBetween('-14 years')->getTimestamp();
-        $last = CarbonImmutable::parse($lastPostDate);
+        return $this->state(function () {
+            $imageContent = $this->generateImageContent('bbc');
 
-        return $this->state(fn() => [
-            'poster_time' => $this->faker->dateTimeBetween($last)->getTimestamp(),
-        ]);
+            return [
+                'body' => $imageContent . fake()->paragraphs(rand(1, 6), true),
+            ];
+        });
     }
 }

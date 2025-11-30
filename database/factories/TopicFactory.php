@@ -21,14 +21,14 @@ class TopicFactory extends Factory
         ];
     }
 
-    public function stickied(): Factory
+    public function stickied(): self
     {
         return $this->state(fn(array $attributes) => [
             'is_sticky' => 1,
         ]);
     }
 
-    public function locked(): Factory
+    public function locked(): self
     {
         return $this->state(fn(array $attributes) => [
             'locked' => 1,

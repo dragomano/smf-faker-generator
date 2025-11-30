@@ -13,8 +13,8 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => Str::ucfirst($this->faker->unique()->words(rand(1, 3), true)),
-            'description' => '',
+            'name' => Str::ucfirst(fake()->unique()->words(rand(1, 3), true)),
+            'description' => Str::limit(fake()->paragraph, 250),
         ];
     }
 }

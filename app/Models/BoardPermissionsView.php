@@ -16,6 +16,12 @@ class BoardPermissionsView extends Model
 
     protected $table = 'board_permissions_view';
 
+    protected $fillable = [
+        'id_group',
+        'id_board',
+        'deny',
+    ];
+
     public function board(): BelongsTo
     {
         return $this->belongsTo(Board::class, 'id_board', 'id_board');

@@ -2,12 +2,6 @@
 
 namespace App\Providers;
 
-use App\Models\Board;
-use App\Models\Message;
-use App\Models\Topic;
-use App\Observers\BoardObserver;
-use App\Observers\MessageObserver;
-use App\Observers\TopicObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -32,8 +26,5 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Board::observe(BoardObserver::class);
-        Message::observe(MessageObserver::class);
-        Topic::observe(TopicObserver::class);
     }
 }

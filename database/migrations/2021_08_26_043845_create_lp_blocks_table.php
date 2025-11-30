@@ -8,17 +8,13 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
         Schema::create('lp_blocks', function (Blueprint $table) {
             $table->increments('block_id');
             $table->string('icon', 60)->nullable();
             $table->string('type', 255);
-            $table->string('note', 255)->nullable();
-            $table->text('content')->nullable();
             $table->string('placement', 10);
             $table->unsignedTinyInteger('priority')->default(0);
             $table->unsignedTinyInteger('permissions')->default(0);
@@ -31,10 +27,8 @@ return new class extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('lp_blocks');
     }
