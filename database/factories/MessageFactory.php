@@ -41,15 +41,4 @@ class MessageFactory extends Factory
             ];
         });
     }
-
-    public function withRandomImage(): self
-    {
-        return $this->state(function () {
-            $imageContent = $this->generateImageContent('bbc');
-
-            return [
-                'body' => $imageContent . fake()->paragraphs(rand(1, 6), true),
-            ];
-        });
-    }
 }

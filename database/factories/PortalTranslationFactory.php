@@ -21,15 +21,4 @@ class PortalTranslationFactory extends Factory
             'description' => Str::limit(fake()->sentence(10), 500),
         ];
     }
-
-    public function withRandomImage(string $pageType): self
-    {
-        return $this->state(function () use ($pageType) {
-            $imageContent = $this->generateImageContent($pageType);
-
-            return [
-                'content' => $imageContent . fake()->paragraphs(rand(1, 6), true),
-            ];
-        });
-    }
 }

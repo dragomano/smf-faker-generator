@@ -6,13 +6,14 @@
     "moonshine admin example",
     "simple machines forum",
     "smf data generator",
-    "smf faker data",
-    "light portal"
+    "smf faker data"
   ],
   "license": "MIT",
   "require": {
     "php": "^8.2",
-    "devscast/pexels": "^1.1",
+    "ext-pdo": "*",
+    "bugo/moonshine-fontawesome-field": "^2.1",
+    "bugo/pexels-laravel": "^0.1",
     "guzzlehttp/guzzle": "^7.10",
     "laravel/framework": "^12",
     "laravel/tinker": "^2.10",
@@ -28,10 +29,8 @@
     "barryvdh/laravel-debugbar": "^3.16",
     "beyondcode/laravel-query-detector": "^2.1",
     "bugo/fa-icon-builder": "^0.3",
-    "bugo/moonshine-fontawesome-field": "^2.0",
     "fakerphp/faker": "^1.24",
-    "nunomaduro/collision": "^8.8",
-    "spatie/laravel-ignition": "^2.8"
+    "nunomaduro/collision": "^8.8"
   },
   "autoload": {
     "psr-4": {

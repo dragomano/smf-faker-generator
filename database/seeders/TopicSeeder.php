@@ -66,7 +66,7 @@ class TopicSeeder extends Seeder
         Message::factory(1)
             ->state($state)
             ->withSequentialDate($this->globalTimestamp)
-            ->withRandomImage()
+            ->withRandomImage('bbc', 'body')
             ->create([
                 'id_topic' => $topic->id_topic,
                 'id_board' => $topic->id_board,

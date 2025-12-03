@@ -9,6 +9,6 @@ class CategorySeeder extends Seeder
 {
     public function run(): void
     {
-        Category::factory(mt_rand(3, 6))->create();
+        Category::factory(mt_rand(3, 6))->create(['description' => '']);
     }
 }
