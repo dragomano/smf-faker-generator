@@ -21,7 +21,12 @@ return new class extends Migration
             $table->string('description', 510)->nullable();
             $table->unique(['item_id', 'type', 'lang']);
             $table->index(['type', 'item_id', 'lang']);
-            $table->index([DB::raw('title(100)')], 'title_prefix');
+
+            if (DB::getDriverName() === 'mysql') {
+                $table->index([DB::raw('title(100)')], 'title_prefix');
+            } else {
+                $table->index('title', 'title_prefix');
+            }
         });
     }
 
