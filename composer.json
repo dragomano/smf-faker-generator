@@ -16,20 +16,20 @@
     "bugo/pexels-laravel": "^0.1",
     "guzzlehttp/guzzle": "^7.10",
     "laravel/framework": "^13",
-    "laravel/tinker": "^3.0",
     "moonshine/ace": "^1.0",
     "moonshine/apexcharts": "^1.2",
     "moonshine/easymde": "^2.0",
-    "moonshine/moonshine": "^4.9",
+    "moonshine/moonshine": "^4.11",
     "moonshine/ru": "^1.0",
     "moonshine/tinymce": "^2.0",
-    "spatie/laravel-db-snapshots": "^2.9"
+    "spatie/laravel-db-snapshots": "^2.10"
   },
   "require-dev": {
-    "barryvdh/laravel-debugbar": "^4.1",
-    "beyondcode/laravel-query-detector": "^2.2",
+    "barryvdh/laravel-debugbar": "^4.2",
+    "beyondcode/laravel-query-detector": "^2.3",
     "bugo/fa-icon-builder": "^0.4",
     "fakerphp/faker": "^1.24",
+    "laravel/tinker": "^3.0",
     "nunomaduro/collision": "^8.9"
   },
   "autoload": {
